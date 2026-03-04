@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Sayang!</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome (untuk icon) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* === CSS VARIABLES === */
+        :root {
+            --bg-dark: #0f0c10;
+            --bg-lighter: #1a151b;
+            --primary-pink: #ffb6c1;
+            --rose-gold: #b76e79;
+            --text-light: #fdf6f5;
+            --text-muted: #dcd0d3;
+            --glass-bg: rgba(255, 182, 193, 0.05);
+            --glass-border: rgba(255, 182, 193, 0.2);
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Poppins', sans-serif;
+            --font-script: 'Great Vibes', cursive;
+        }
+
+        /* === GLOBAL STYLES === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            position: relative;
+            background-image: radial-gradient(circle at 15% 50%, rgba(255, 182, 193, 0.05), transparent 25%),
+                              radial-gradient(circle at 85% 30%, rgba(183, 110, 121, 0.08), transparent 25%);
+        }
+
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+        }
+
+        /* === UTILITIES === */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .text-center { text-align: center; }
+        .text-pink { color: var(--primary-pink); }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* === FLOATING HEARTS (JS INTERACTION) === */
+        .floating-heart {
+            position: fixed;
+            color: var(--primary-pink);
+            font-size: 20px;
+            pointer-events: none;
+            animation: floatUp 2s ease-out forwards;
+            z-index: 9999;
+            filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.5));
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5) rotate(20deg); opacity: 0; }
+        }
+
+        /* === HERO SECTION === */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .hero-img-container {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            padding: 5px;
+            background: linear-gradient(45deg, var(--primary-pink), var(--rose-gold));
+            margin-bottom: 2rem;
+            animation: float 4s ease-in-out infinite;
+            box-shadow: 0 0 30px rgba(255, 182, 193, 0.2);
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--bg-dark);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 span {
+            font-family: var(--font-script);
+            color: var(--primary-pink);
+            font-size: 4.5rem;
+            display: block;
+            margin-top: -10px;
+            font-weight: 400;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            font-size: 2rem;
+            color: var(--primary-pink);
+            animation: bounce 2s infinite;
+            text-decoration: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        /* === TIME TOGETHER SECTION === */
+        .timer-section {
+            background: var(--bg-lighter);
+            border-radius: 30px;
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .timer-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            padding: 1.5rem;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .time-box span {
+            display: block;
+            font-size: 3rem;
+            font-family: var(--font-heading);
+            color: var(--primary-pink);
+            margin-bottom: 0.5rem;
+        }
+
+        .time-box p {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+
+        /* === VIRTUAL GALLERY === */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            aspect-ratio: 4/5;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            opacity: 0;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay i {
+            color: var(--primary-pink);
+            font-size: 1.5rem;
+        }
+
+        /* === LOVE LETTER (FLIP CARD) === */
+        .letter-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 600px;
+            margin: 3rem auto;
+            height: 500px; /* Diperbesar agar muat lebih banyak teks */
+        }
+
+        .flip-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flip-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flip-front, .flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 3rem 2rem;
+        }
+
+        .flip-front {
+            border: 2px dashed var(--rose-gold);
+            border-radius: 20px;
+            background: rgba(183, 110, 121, 0.05);
+            justify-content: center;
+            text-align: center;
+        }
+
+        .flip-front i {
+            font-size: 4rem;
+            color: var(--primary-pink);
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        .flip-back {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            transform: rotateY(180deg);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            
+            /* PENGATURAN SCROLL & LAYOUT TEKS */
+            justify-content: flex-start; /* Teks mulai dari atas */
+            overflow-y: auto; /* Munculkan scroll jika teks terlalu panjang */
+            scrollbar-width: thin; /* Untuk Firefox */
+            scrollbar-color: var(--rose-gold) transparent; /* Untuk Firefox */
+        }
+
+        /* Kustomisasi Scrollbar (Chrome/Safari/Edge) */
+        .flip-back::-webkit-scrollbar {
+            width: 6px;
+        }
+        .flip-back::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .flip-back::-webkit-scrollbar-thumb {
+            background-color: var(--rose-gold);
+            border-radius: 10px;
+        }
+
+        .flip-back h3 {
+            font-family: var(--font-script);
+            font-size: 3rem;
+            color: var(--primary-pink);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            text-align: center;
+            width: 100%;
+        }
+
+        .flip-back p {
+            line-height: 1.7;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-align: left; /* Rata kiri agar rapi */
+            margin-bottom: 15px; /* Jarak antar paragraf */
+            width: 100%;
+        }
+
+        .signature {
+            margin-top: 1rem;
+            font-family: var(--font-script);
+            font-size: 1.5rem;
+            color: var(--rose-gold);
+            align-self: flex-end;
+            padding-bottom: 1rem;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* === MUSIC PLAYER UI === */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .album-art {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            object-fit: cover;
+            animation: spin 10s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .album-art.playing {
+            animation-play-state: running;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .song-info {
+            flex-grow: 1;
+        }
+
+        .song-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .song-artist {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .player-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            color: var(--primary-pink);
+        }
+
+        .player-controls i {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .player-controls i:hover {
+            transform: scale(1.2);
+        }
+
+        .play-btn {
+            font-size: 1.8rem;
+        }
+
+        /* === RESPONSIVE DESIGN === */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero h1 span { font-size: 3.5rem; }
+            .time-box { min-width: 100px; padding: 1rem; }
+            .time-box span { font-size: 2rem; }
+            section { padding: 4rem 1.5rem; }
+            .letter-container { height: 550px; } /* Diperbesar sedikit di layar HP */
+            .flip-front, .flip-back { padding: 2rem 1.5rem; }
+            .flip-back p { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO SECTION -->
+    <header class="hero" id="home">
+        <div class="hero-img-container fade-in">
+  
+            <img src="image/Nesaa.jpeg" alt="Birthday Girl" class="hero-img">
+        </div>
+        <h1 class="fade-in text-center">
+            Happy Birthday
+            <span>nesaa</span>
+        </h1>
+        <p class="fade-in">Tau kan ini hari spesial apa hehe, aku buat hal kecil ini buat kamu. Kamu bisa tap di mana aja buat keajaiban kecil selama kamu buka halaman ini</p>
+        
+        <a href="#timer" class="scroll-down fade-in">
+            <i class="fa-solid fa-chevron-down"></i>
+        </a>
+    </header>
+
+    <!-- TIMER SECTION -->
+    <section id="timer" class="timer-section fade-in glass-panel">
+        <div class="text-center">
+            <h2 class="text-pink">Waktu Bersamamu</h2>
+            <p style="color: var(--text-muted); margin-top: 10px;">Kita baru sebulan Nesaa, tapi aku rasa kayak udah banyak banget yang kita lalui, kita ceritain, dan walaupun baru sebulan bagi aku berarti banget kehadiran kamu Nesaa.</p>
+        </div>
+        <div class="timer-grid">
+            <div class="time-box glass-panel">
+                <span id="days">00</span>
+                <p>Hari</p>
+            </div>
+            <div class="time-box glass-panel">
+                <span id="hours">00</span>
+                <p>Jam</p>
+            </div>
+            <div class="time-box glass-panel">
+                <span id="minutes">00</span>
+                <p>Menit</p>
+            </div>
+            <div class="time-box glass-panel">
+                <span id="seconds">00</span>
+                <p>Detik</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPESIAL UNTUKMU SECTION -->
+    <section id="gallery" class="fade-in">
+        <div class="text-center">
+            <h2>Spesial Untuk <span class="text-pink">Wanita paling sempurna, Yang Mulia Nesaa</span></h2>
+            <p style="color: var(--text-muted); margin-top: 10px;">Selamat Ulang Tahun, Cintaku!</p>
+        </div>
+        
+        <div class="name-showcase glass-panel" style="padding: 4rem 2rem; border-radius: 30px; position: relative; overflow: hidden; text-align: center; margin-top: 3rem;">
+            <i class="fa-solid fa-cake-candles" style="font-size: 4rem; color: var(--rose-gold); margin-bottom: 1.5rem; animation: bounce 2s infinite;"></i>
+            
+            <h3 style="font-size: 3rem; font-family: var(--font-script); color: var(--primary-pink); margin-bottom: 1.5rem;">
+                Nesaaaaaaa
+            </h3>
+            
+            <div style="font-size: 2rem; color: #ff69b4; animation: pulse 1.5s infinite;">
+                <i class="fa-solid fa-heart"></i>
+                <i class="fa-solid fa-heart" style="font-size: 2.5rem; margin: 0 15px;"></i>
+                <i class="fa-solid fa-heart"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOVE LETTER SECTION -->
+    <section id="letter" class="fade-in">
+        <div class="text-center">
+            <h2>Pesan <span class="text-pink">Untuk Kamu</span></h2>
+            <p style="color: var(--text-muted); margin-top: 10px;">Klik kartu di bawah buat buka ya</p>
+        </div>
+
+        <div class="letter-container">
+            <div class="flip-card" id="flipCard">
+                <!-- Front of Card -->
+                <div class="flip-front">
+                    <i class="fa-regular fa-envelope"></i>
+                    <h3 style="font-family: var(--font-heading);">A Special Letter</h3>
+                    <p style="color: var(--text-muted);">Tap to open 💌</p>
+                </div>
+                <!-- Back of Card (The Letter) -->
+                <div class="flip-back">
+                    <h3>Happy Birthday Nesaa</h3>
+                    <p>Selamat ulang tahun, cewe paling luar biasa sekaligus "Yang Mulia"-ku, Nesaa. Terima kasih ya, Nes, sudah jadi alasan utama di balik semangat aku setiap hari.</p>
+                    <p>Aku mau minta maaf karena sampai detik ini kita masih terbatas lewat chat sama call aja. Maaf aku belum bisa hadir di sampingmu atau kasih sesuatu yang berharga yang bisa kamu genggam. Maaf juga kalau selama ini aku pernah bikin kamu sedih, badmood, bahkan sampai menangis. Aku benar-benar minta maaf untuk itu.</p>
+                    <p>Di usiamu yang baru ini, aku harap supaya kamu selalu dikelilingi kebahagiaan, kesehatan, dan cinta yang melimpah. Kalau soal cinta, tenang aja aku bakal kasih terus sampai tumpah-tumpah, hehe.</p>
+                    <p>Aku nggak akan bilang "semoga jadi pribadi yang lebih baik," karena bagiku, kamu yang sekarang sudah sangat sempurna. Menurut aku kamu cukup pertahankan semua yang ada di diri kamu saat ini, karena itu sudah lebih dari cukup menurut aku. Tapi kalau kamu sadar ada yang belum sesuai, boleh banget kamu ubah. Apapun hal baik yang kamu lakuin, aku bakal selalu dukung kamu, dengar cerita kamu, temani sedih kamu, jadi rumah kamu di mana kamu bisa lakuin apa aja di dalamnya tanpa takut apapun.</p>
+                    <p>Harapan aku yang lain semoga semesta dukung kita ya sampai jadi "kita" yang selamanya. Kita punya dua anak laki-laki yang hebat, kamu punya salon sendiri, aku bisa melihat kamu pakai bikini setiap hari di rumah, dan kita bakal pelihara Anjing Husky sama Teacup :).</p>
+                    <p>Akhirnya, aku ingin kamu mendapatkan semua yang terbaik dalam hidup. Sekali lagi, selamat ulang tahun, Nesaa. Aku akan selalu sayang kamu :).</p>
+                    
+                    <p style="text-align: center; font-style: italic; color: var(--primary-pink); margin-top: 15px;">Part terbaik dalam hidup aku yaitu bertemu kamu. I love you more than words can say. ❤️</p>
+                    <div class="signature">- Pria yang akan selalu menemanimu - patric</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MUSIC PLAYER UI -->
+    <div class="music-player glass-panel">
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Album Art" class="album-art" id="albumArt">
+        <div class="song-info">
+            <div class="song-title">Perfect</div>
+            <div class="song-artist">Ed Sheeran (Cover/Instrumental)</div>
+        </div>
+        <div class="player-controls">
+            <i class="fa-solid fa-backward-step"></i>
+            <i class="fa-solid fa-circle-play play-btn" id="playBtn"></i>
+            <i class="fa-solid fa-forward-step"></i>
+        </div>
+    </div>
+
+    <!-- === JAVASCRIPT === -->
+    <script>
+        // 1. CLICK EFFECT: Spawn Floating Hearts
+        document.addEventListener('click', function(e) {
+            // Prevent heart spawning when clicking the music player or flip card
+            if (e.target.closest('.music-player') || e.target.closest('.flip-card')) return;
+
+            const heart = document.createElement('i');
+            heart.classList.add('fa-solid', 'fa-heart', 'floating-heart');
+            
+            // Set position based on click coordinates
+            heart.style.left = `${e.clientX - 10}px`;
+            heart.style.top = `${e.clientY - 10}px`;
+            
+            // Randomize color slightly (between pink and rose gold)
+            const colors = ['#ffb6c1', '#b76e79', '#ff69b4', '#ffc0cb'];
+            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Randomize size slightly
+            const size = Math.random() * 15 + 15; // 15px to 30px
+            heart.style.fontSize = `${size}px`;
+
+            document.body.appendChild(heart);
+
+            // Remove element after animation ends (2 seconds)
+            setTimeout(() => {
+                heart.remove();
+            }, 2000);
+        });
+
+        // 2. SCROLL ANIMATION: Fade in elements on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Run once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+
+        // 3. FLIP CARD INTERACTION
+        const flipCard = document.getElementById('flipCard');
+        flipCard.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+        });
+
+        // Mencegah kartu tertutup otomatis saat scroll isi pesannya
+        const flipBack = document.querySelector('.flip-back');
+        flipBack.addEventListener('click', function(e) {
+            // Stop propagation hanya jika kita sedang scroll atau menekan area teks
+            e.stopPropagation(); 
+        });
+
+        // 4. TIME TOGETHER COUNTER
+        const startDate = new Date('2026-02-05T01:34:00').getTime();
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const difference = now - startDate;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = days.toString().padStart(2, '0');
+            document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer(); // Initial call
+
+        // 5. MUSIC PLAYER TOGGLE
+        const playBtn = document.getElementById('playBtn');
+        const albumArt = document.getElementById('albumArt');
+        let isPlaying = false;
+
+        playBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                playBtn.classList.remove('fa-circle-pause');
+                playBtn.classList.add('fa-circle-play');
+                albumArt.classList.remove('playing');
+            } else {
+                playBtn.classList.remove('fa-circle-play');
+                playBtn.classList.add('fa-circle-pause');
+                albumArt.classList.add('playing');
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Auto-show items that are already in viewport on load
+        setTimeout(() => {
+            document.querySelectorAll('.fade-in').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                    el.classList.add('visible');
+                }
+            });
+        }, 100);
+
+    </script>
+</body>
+</html>
